@@ -1,13 +1,15 @@
 <template>
-  <div class="font-inter">
+  <div class="flex flex-col min-h-screen font-inter bg-gray-100">
     <Header />
-    <Nuxt />
+    <Nuxt class="flex-grow" />
+    <Footer />
   </div>
 </template>
 <script>
 import Header from '../components/Header'
+import Footer from '../components/Footer'
 
 export default {
-  components: { Header },
+  components: { Footer, Header },
 }
 </script>

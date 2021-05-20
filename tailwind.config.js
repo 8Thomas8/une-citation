@@ -14,7 +14,7 @@ module.exports = {
         inter: '"Inter", sans-serif',
       },
       boxShadow: {
-        header: '0 5px 2px -2px #f3f4f6',
+        header: '0 3px 2px -2px #e5e7eb',
       },
     },
   },
