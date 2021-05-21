@@ -72,7 +72,7 @@
 
       <button
         class="
-          h-[55px]
+          h-[45px]
           bg-blue-500
           hover:bg-blue-600
           transition-colors
@@ -82,11 +82,14 @@
           font-medium
           px-4
           min-w-[55px]
-          rounded-xl
+          rounded-md
           flex
           items-center
+          focus:outline-none
+          focus:ring-2 focus:ring-offset-2 focus:ring-blue-600
           group
         "
+        @click.prevent="$emit('open-modal-event')"
       >
         <span class="hidden sm:inline">Modifier</span>
         <svg
@@ -94,6 +97,7 @@
           class="
             w-5
             h-5
+            ml-[2px]
             sm:ml-2
             group-hover:text-yellow-200
             transition-colors

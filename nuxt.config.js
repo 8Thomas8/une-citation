@@ -17,7 +17,7 @@ export default {
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.png' },
       {
         rel: 'preconnect',
-        href: 'https://fonts.gstatic.com'
+        href: 'https://fonts.gstatic.com',
       },
       {
         rel: 'stylesheet',

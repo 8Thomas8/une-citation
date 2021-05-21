@@ -73,10 +73,7 @@
         Il n'y a pas encore de citation, profites-en pour ajouter la tienne ou
         celle d'un pote !
       </p>
-      <div
-        v-if="quote && quote.content && quote.name"
-        class="pt-3 text-right font-semibold"
-      >
+      <div v-if="quote && quote.content && quote.name" class="pt-3 text-right">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           class="text-blue-500 inline h-5 w-5 mt-[-2px]"
@@ -92,10 +89,10 @@
           />
         </svg>
         <p class="inline text-sm md:text-base italic">
-          <span class="capitalize">{{ quote.name }}</span>
-          <span v-if="quote.lastname" class="uppercase">{{
-            quote.lastname
-          }}</span>
+          <span class="font-semibold capitalize">{{ quote.name }}</span>
+          <span v-if="quote.age">
+            ({{ quote.age }} an<span v-if="quote.age > 1">s</span>)
+          </span>
         </p>
       </div>
     </div>
@@ -109,12 +106,10 @@ export default Vue.extend({
   data() {
     return {
       quote: {
-        name: 'Lorem',
-        lastname: 'Ipsum',
+        name: 'Lina',
+        age: 7,
         content:
-          'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Commodi consequatur eligendi esse fuga ipsa,' +
-          'mollitia nesciunt nobis odio qui ratione repellendus sit, soluta ut veniam voluptatibus.' +
-          ' Eligendi ipsum labore nesciunt.',
+          "Bonjour, chez moi j'ai un chien, un perroquet, une tortue et une petite soeur.",
       },
     }
   },
