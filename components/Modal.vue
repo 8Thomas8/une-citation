@@ -28,7 +28,7 @@
         <span
           class="hidden sm:inline-block sm:align-middle sm:h-screen"
           aria-hidden="true"
-        >&#8203;</span
+          >&#8203;</span
         >
         <div
           class="
@@ -88,7 +88,7 @@
                         {{ errorName }}
                       </p>
                     </div>
-                    <div class="relative ml-auto">
+                    <div class="relative sm:ml-auto">
                       <input
                         v-model="quote.age"
                         type="number"
@@ -152,7 +152,10 @@
                   focus:outline-none
                   focus:ring-2 focus:ring-offset-2 focus:ring-blue-600
                   sm:col-start-2
-                  sm:text-sm transition-colors duration-200 ease-in-out
+                  sm:text-sm
+                  transition-colors
+                  duration-200
+                  ease-in-out
                 "
                 @click.prevent="sendForm"
               >
@@ -160,7 +163,10 @@
               </button>
               <button
                 type="button"
-                class=" transition-colors duration-200 ease-in-out
+                class="
+                  transition-colors
+                  duration-200
+                  ease-in-out
                   mt-3
                   w-full
                   inline-flex
@@ -200,52 +206,62 @@ export default Vue.extend({
   data() {
     return {
       quote: {
-        name: null,
+        name: '',
         age: null,
-        content: null,
+        content: '',
       },
-      errorName: null,
-      errorAge: null,
-      errorContent: null,
-      contentLimitChar: 250,
+      errorName: '',
+      errorAge: '',
+      errorContent: '',
+      minLimitChar: 50,
+      maxLimitChar: 300,
     }
   },
   methods: {
     destroyModal() {
       this.$emit('close-modal-event')
-      this.errorAge = null
-      this.errorName = null
-      this.errorContent = null
+      this.errorAge = ''
+      this.errorName = ''
+      this.errorContent = ''
       this.quote = {
-        name: null,
+        name: '',
         age: null,
-        content: null,
+        content: '',
       }
     },
     validateForm() {
+      let status = false
+      this.errorAge = ''
+      this.errorName = ''
+      this.errorContent = ''
+
       if (this.quote.age && (this.quote.age <= 0 || this.quote.age > 100)) {
         this.errorAge = 'Choisissez un age entre 1 et 100 ans.'
       }
 
-      if (!this.quote.content) {
+      if (!this.quote.content || this.quote.content.length === 0) {
         this.errorContent = 'Contenu de la citation obligatoire.'
       }
 
-      if (
-        this.quote.content &&
-        this.quote.content.lenght > this.contentLimitChar
-      ) {
+      if (this.quote.content && this.quote.content.length > this.maxLimitChar) {
         this.errorContent =
           'Votre citation ne doit pas dépasser ' +
-          this.contentLimitChar +
+          this.maxLimitChar +
+          ' charactères.'
+      }
+
+      if (this.quote.content && this.quote.content.length < this.minLimitChar) {
+        this.errorContent =
+          'Votre citation doit faire plus de ' +
+          this.minLimitChar +
           ' charactères.'
       }
 
       if (this.errorName || this.errorAge || this.errorContent) {
-        return true
+        status = true
       }
 
-      return true
+      return status
     },
     sendForm() {
       if (this.validateForm()) {
