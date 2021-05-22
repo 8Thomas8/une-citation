@@ -56,11 +56,11 @@
               <div class="mt-3 text-center sm:mt-5">
                 <h3
                   id="modal-title"
-                  class="text-3xl leading-6 font-bold text-gray-900 pb-3"
+                  class="text-3xl leading-6 font-bold text-blue-600 pb-3 mb-2"
                 >
                   Une citation
                 </h3>
-                <div class="mt-2">
+                <div v-if="!showError && !showSuccess">
                   <div
                     class="
                       flex flex-col
@@ -122,6 +122,71 @@
                     </p>
                   </div>
                 </div>
+                <div v-if="showSuccess && !showError">
+                  <div class="rounded-md bg-green-50 p-4">
+                    <div class="flex flex-col">
+                      <div class="w-full pb-3">
+                        <svg
+                          class="mx-auto h-10 w-10 text-green-400"
+                          xmlns="http://www.w3.org/2000/svg"
+                          viewBox="0 0 20 20"
+                          fill="currentColor"
+                          aria-hidden="true"
+                        >
+                          <path
+                            fill-rule="evenodd"
+                            d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                            clip-rule="evenodd"
+                          />
+                        </svg>
+                      </div>
+                      <div class="ml-3">
+                        <h3 class="text-sm font-medium text-green-800">
+                          Modification de la citation effectuée
+                        </h3>
+                        <div class="mt-2 text-sm text-green-700">
+                          <p>
+                            Félicitation, la citation a bien été remplacée par
+                            la votre.
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div v-if="showError">
+                  <div class="rounded-md bg-red-50 p-4">
+                    <div class="flex flex-col">
+                      <div class="w-full pb-3">
+                        <svg
+                          class="mx-auto h-10 w-10 text-red-400"
+                          xmlns="http://www.w3.org/2000/svg"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                        >
+                          <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                            d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                          />
+                        </svg>
+                      </div>
+                      <div class="ml-3">
+                        <h3 class="text-sm font-medium text-red-800">
+                          Une erreur s'est produite
+                        </h3>
+                        <div class="mt-2 text-sm text-red-700">
+                          <p>
+                            La citation n'a pas été modifiée, contactez
+                            l'administrateur du site.
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
             <div
@@ -144,11 +209,9 @@
                   shadow-sm
                   px-4
                   py-2
-                  bg-blue-600
                   text-base
                   font-medium
                   text-white
-                  hover:bg-blue-700
                   focus:outline-none
                   focus:ring-2 focus:ring-offset-2 focus:ring-blue-600
                   sm:col-start-2
@@ -157,6 +220,12 @@
                   duration-200
                   ease-in-out
                 "
+                :class="
+                  showError
+                    ? 'cursor-not-allowed bg-gray-200'
+                    : 'bg-blue-600 hover:bg-blue-700 '
+                "
+                :disabled="showError"
                 @click.prevent="sendForm"
               >
                 Valider
@@ -215,6 +284,8 @@ export default Vue.extend({
       errorContent: '',
       minLimitChar: 50,
       maxLimitChar: 300,
+      showSuccess: false,
+      showError: false,
     }
   },
   methods: {
@@ -228,6 +299,8 @@ export default Vue.extend({
         age: null,
         content: '',
       }
+      this.showSuccess = false
+      this.showError = false
     },
     validateForm() {
       let status = false
@@ -257,7 +330,11 @@ export default Vue.extend({
           ' charactères.'
       }
 
-      if (this.errorName || this.errorAge || this.errorContent) {
+      if (
+        this.errorName.length === 0 &&
+        this.errorAge.length === 0 &&
+        this.errorContent.length === 0
+      ) {
         status = true
       }
 
@@ -265,7 +342,24 @@ export default Vue.extend({
     },
     sendForm() {
       if (this.validateForm()) {
-        // TODO: Send Form
+        this.$fire.auth
+          .signInAnonymously()
+          .then(() => {
+            this.$fire.database
+              .ref('quote/')
+              .push({
+                name: this.quote.name,
+                age: this.quote.age,
+                content: this.quote.content,
+                date: new Date().toLocaleString(),
+              })
+              .then(() => {
+                this.$fire.auth.signOut()
+              })
+          })
+          .catch(console.error)
+        // TODO: AFFICHAGE ERREUR
+        // TODO: AFFICHAGE SUCCES
       }
     },
   },
