@@ -66,13 +66,20 @@
         />
       </svg>
 
-      <p v-if="quote && quote.content" class="text-justify md:text-lg">
-        {{ quote.content }}
+      <p class="absolute right-[15px] top-[10px] text-xs opacity-40">
+        {{ quote.date }}
       </p>
-      <p v-else>
-        Il n'y a pas encore de citation, profites-en pour ajouter la tienne ou
-        celle d'un pote !
-      </p>
+
+      <div>
+        <p v-if="quote && quote.content" class="text-justify md:text-lg">
+          {{ quote.content }}
+        </p>
+        <p v-else class="text-justify md:text-lg">
+          Il n'y a pas encore de citation, profites-en pour ajouter la tienne ou
+          celle d'un pote !
+        </p>
+      </div>
+
       <div v-if="quote && quote.content && quote.name" class="pt-3 text-right">
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -106,12 +113,51 @@ export default Vue.extend({
   data() {
     return {
       quote: {
-        name: 'Lina',
-        age: 7,
-        content:
-          "Bonjour, chez moi j'ai un chien, un perroquet, une tortue et une petite soeur.",
+        name: '',
+        age: null,
+        content: '',
+        date: '',
       },
     }
+  },
+  mounted() {
+    // this.showLoader = true
+    let lastQuote: {
+      name: string
+      age: number
+      content: string
+      timestamp: string
+    }
+    this.$fire.database
+      .ref('quotes/')
+      .orderByChild('timestamp')
+      .limitToLast(1)
+      .on('value', (snapshot: { val: () => any }) => {
+        const object = snapshot.val()
+        lastQuote = object[Object.keys(object)[0]]
+        this.quote.name = lastQuote.name
+        this.quote.age = lastQuote.age
+        this.quote.content = lastQuote.content
+        const date = new Date(lastQuote.timestamp)
+        this.quote.date =
+          (date.getHours().toString().length > 1
+            ? date.getHours()
+            : '0' + date.getHours()) +
+          ':' +
+          (date.getMinutes().toString().length > 1
+            ? date.getMinutes()
+            : '0' + date.getMinutes()) +
+          ' ' +
+          (date.getDate().toString().length > 1
+            ? date.getDate()
+            : '0' + date.getDate()) +
+          '/' +
+          (date.getMonth().toString().length > 1
+            ? date.getMonth()
+            : '0' + date.getMonth()) +
+          '/' +
+          date.getFullYear()
+      })
   },
 })
 </script>

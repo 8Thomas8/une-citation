@@ -52,15 +52,15 @@
           "
         >
           <form>
-            <div>
-              <div class="mt-3 text-center sm:mt-5">
-                <h3
-                  id="modal-title"
-                  class="text-3xl leading-6 font-bold text-blue-600 pb-3 mb-2"
-                >
-                  Une citation
-                </h3>
-                <div v-if="!showError && !showSuccess">
+            <div class="mt-3 text-center sm:mt-5">
+              <h3
+                id="modal-title"
+                class="text-3xl leading-6 font-bold text-blue-600 pb-3 mb-2"
+              >
+                Une citation
+              </h3>
+              <div class="h-[250px] sm:h-[192px] relative">
+                <div v-if="!showError && !showSuccess && !showLoader">
                   <div
                     class="
                       flex flex-col
@@ -122,7 +122,10 @@
                     </p>
                   </div>
                 </div>
-                <div v-if="showSuccess && !showError">
+                <div
+                  v-if="showSuccess && !showError && !showLoader"
+                  class="relative transform top-1/2 -translate-y-1/2"
+                >
                   <div class="rounded-md bg-green-50 p-4">
                     <div class="flex flex-col">
                       <div class="w-full pb-3">
@@ -154,7 +157,10 @@
                     </div>
                   </div>
                 </div>
-                <div v-if="showError">
+                <div
+                  v-if="showError && !showLoader"
+                  class="relative transform top-1/2 -translate-y-1/2"
+                >
                   <div class="rounded-md bg-red-50 p-4">
                     <div class="flex flex-col">
                       <div class="w-full pb-3">
@@ -187,79 +193,176 @@
                     </div>
                   </div>
                 </div>
+                <div
+                  v-if="showLoader"
+                  class="relative transform top-1/2 -translate-y-1/2"
+                >
+                  <div
+                    class="
+                      w-full
+                      h-full
+                      flex flex-wrap
+                      items-center
+                      justify-center
+                    "
+                  >
+                    <svg
+                      class="animate-spin h-8 w-8 text-blue-300"
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 24 24"
+                    >
+                      <g>
+                        <path fill="none" d="M0 0h24v24H0z" />
+                        <path
+                          fill="currentColor"
+                          d="M18.364 5.636L16.95 7.05A7 7 0 1 0 19 12h2a9 9 0 1 1-2.636-6.364z"
+                        />
+                      </g>
+                    </svg>
+                    <p class="w-full">Modification en cours ...</p>
+                  </div>
+                </div>
               </div>
             </div>
-            <div
-              class="
-                mt-8
-                sm:mt-9
-                sm:grid sm:grid-cols-2
-                sm:gap-3
-                sm:grid-flow-row-dense
-              "
-            >
-              <button
-                type="submit"
+            <div class="mt-8 sm:mt-9 h-[96px] sm:h-[38px]">
+              <div
+                v-if="!showLoader && !showSuccess"
                 class="
-                  w-full
-                  inline-flex
-                  justify-center
-                  rounded-md
-                  border border-transparent
-                  shadow-sm
-                  px-4
-                  py-2
-                  text-base
-                  font-medium
-                  text-white
-                  focus:outline-none
-                  focus:ring-2 focus:ring-offset-2 focus:ring-blue-600
-                  sm:col-start-2
-                  sm:text-sm
-                  transition-colors
-                  duration-200
-                  ease-in-out
+                  sm:grid sm:grid-cols-2
+                  sm:gap-3
+                  sm:grid-flow-row-dense
+                  h-full
                 "
-                :class="
-                  showError
-                    ? 'cursor-not-allowed bg-gray-200'
-                    : 'bg-blue-600 hover:bg-blue-700 '
-                "
-                :disabled="showError"
-                @click.prevent="sendForm"
               >
-                Valider
-              </button>
-              <button
-                type="button"
-                class="
-                  transition-colors
-                  duration-200
-                  ease-in-out
-                  mt-3
-                  w-full
-                  inline-flex
-                  justify-center
-                  rounded-md
-                  border border-gray-300
-                  shadow-sm
-                  px-4
-                  py-2
-                  bg-white
-                  text-base
-                  font-medium
-                  text-gray-700
-                  hover:bg-gray-50
-                  focus:outline-none
-                  focus:ring-2 focus:ring-offset-2 focus:ring-blue-600
-                  sm:mt-0
-                  sm:col-start-1
-                  sm:text-sm
-                "
-                @click.prevent="destroyModal"
+                <button
+                  v-if="!showLoader && showSuccess"
+                  type="submit"
+                  class="
+                    transition-colors
+                    duration-200
+                    ease-in-out
+                    mt-3
+                    w-full
+                    inline-flex
+                    justify-center
+                    rounded-md
+                    border border-gray-300
+                    shadow-sm
+                    px-4
+                    py-2
+                    bg-white
+                    text-base
+                    font-medium
+                    text-gray-700
+                    hover:bg-gray-50
+                    focus:outline-none
+                    focus:ring-2 focus:ring-offset-2 focus:ring-blue-600
+                    sm:mt-0
+                    sm:col-start-1
+                    sm:text-sm
+                  "
+                  @click.prevent="destroyModal(true)"
+                >
+                  Fermer
+                </button>
+                <button
+                  type="submit"
+                  class="
+                    w-full
+                    inline-flex
+                    justify-center
+                    rounded-md
+                    border border-transparent
+                    shadow-sm
+                    px-4
+                    py-2
+                    text-base
+                    font-medium
+                    text-white
+                    focus:outline-none
+                    focus:ring-2 focus:ring-offset-2 focus:ring-blue-600
+                    sm:col-start-2
+                    sm:text-sm
+                    transition-colors
+                    duration-200
+                    ease-in-out
+                  "
+                  :class="
+                    showError
+                      ? 'cursor-not-allowed bg-gray-200'
+                      : 'bg-blue-600 hover:bg-blue-700 '
+                  "
+                  :disabled="showError"
+                  @click.prevent="sendForm"
+                >
+                  Valider
+                </button>
+                <button
+                  type="button"
+                  class="
+                    transition-colors
+                    duration-200
+                    ease-in-out
+                    mt-3
+                    w-full
+                    inline-flex
+                    justify-center
+                    rounded-md
+                    border border-gray-300
+                    shadow-sm
+                    px-4
+                    py-2
+                    bg-white
+                    text-base
+                    font-medium
+                    text-gray-700
+                    hover:bg-gray-50
+                    focus:outline-none
+                    focus:ring-2 focus:ring-offset-2 focus:ring-blue-600
+                    sm:mt-0
+                    sm:col-start-1
+                    sm:text-sm
+                  "
+                  @click.prevent="destroyModal"
+                >
+                  Annuler
+                </button>
+              </div>
+              <div
+                v-if="!showLoader && showSuccess"
+                class="sm:grid sm:grid-cols-1 sm:grid-flow-row-dense h-full"
               >
-                Annuler
-              </button>
+                <button
+                  type="submit"
+                  class="
+                    transition-colors
+                    duration-200
+                    ease-in-out
+                    mt-3
+                    w-full
+                    inline-flex
+                    justify-center
+                    rounded-md
+                    border border-gray-300
+                    shadow-sm
+                    px-4
+                    py-2
+                    bg-white
+                    text-base
+                    font-medium
+                    text-gray-700
+                    hover:bg-gray-50
+                    focus:outline-none
+                    focus:ring-2 focus:ring-offset-2 focus:ring-blue-600
+                    sm:mt-0
+                    sm:col-start-1
+                    sm:text-sm
+                  "
+                  @click.prevent="destroyModal"
+                >
+                  Fermer
+                </button>
+              </div>
             </div>
           </form>
         </div>
@@ -286,10 +389,11 @@ export default Vue.extend({
       maxLimitChar: 300,
       showSuccess: false,
       showError: false,
+      showLoader: false,
     }
   },
   methods: {
-    destroyModal() {
+    destroyModal(isSuccess = false) {
       this.$emit('close-modal-event')
       this.errorAge = ''
       this.errorName = ''
@@ -301,6 +405,11 @@ export default Vue.extend({
       }
       this.showSuccess = false
       this.showError = false
+      this.showLoader = false
+
+      if (isSuccess) {
+        this.applySuccesEvent(false)
+      }
     },
     validateForm() {
       let status = false
@@ -344,22 +453,46 @@ export default Vue.extend({
       if (this.validateForm()) {
         this.$fire.auth
           .signInAnonymously()
-          .then(() => {
-            this.$fire.database
-              .ref('quote/')
-              .push({
-                name: this.quote.name,
-                age: this.quote.age,
-                content: this.quote.content,
-                date: new Date().toLocaleString(),
-              })
-              .then(() => {
-                this.$fire.auth.signOut()
-              })
+          .then(
+            () => {
+              this.showLoader = true
+              this.$fire.database
+                .ref('quotes/')
+                .push({
+                  name: this.quote.name,
+                  age: this.quote.age,
+                  content: this.quote.content,
+                  timestamp: new Date().getTime(),
+                })
+                .then(() => {
+                  this.applySuccesEvent()
+                })
+            },
+            () => {
+              this.showError = true
+              this.showLoader = false
+            }
+          )
+          .catch(() => {
+            this.showError = true
+            this.showLoader = false
           })
-          .catch(console.error)
-        // TODO: AFFICHAGE ERREUR
-        // TODO: AFFICHAGE SUCCES
+      }
+    },
+    applySuccesEvent(timer = true) {
+      this.$fire.auth.signOut()
+      this.showSuccess = true
+      this.showLoader = false
+
+      if (timer) {
+        setTimeout(() => {
+          this.destroyModal()
+          if (this.$nuxt.$route.path !== '/') {
+            this.$router.push('/')
+          }
+        }, 5000)
+      } else if (this.$nuxt.$route.path !== '/') {
+        this.$router.push('/')
       }
     },
   },
