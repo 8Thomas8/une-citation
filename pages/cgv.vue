@@ -17,7 +17,7 @@
     </h1>
     <article class="pb-6">
       <h2 class="text-lg font-semibold pb-2">
-        Caractéristique du bien ou service
+        Caractéristiques du bien ou service
       </h2>
       <p>
         Lorsque vous réalisez un achat sur ce site, vous modifiez simplement la

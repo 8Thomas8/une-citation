@@ -22,16 +22,13 @@
     <article class="pb-6">
       <h2 class="text-lg font-semibold pb-2">Données personnelles</h2>
       <p>
-        Nous ne stockons aucune donnée. Seules les données nécéssaires au
-        paiement sont stockées chez notre prestataire de paiement.
+        Nous ne stockons aucune donnée autre que le nom, l'age, la date et le
+        contenu d'une citation.
       </p>
-    </article>
-    <article class="pb-6">
-      <h2 class="text-lg font-semibold pb-2">
-        Données stockées chez notre prestataire de paiement
+      <p class="pt-2">
+        Les données nécessaires au paiement sont stockées chez notre prestataire
+        de paiement Stripe. Vous pouvez consulter leurs conditions et mentions
         <a
-          href="https://stripe.com/"
-          title="Accéder à Stripe"
           class="
             text-blue-500
             hover:text-blue-600
@@ -39,30 +36,71 @@
             duration-200
             ease-in-out
           "
-          >Stripe</a
-        >
-      </h2>
-      <ul class="list-disc pl-4">
-        <li>1</li>
-        <li>2</li>
-        <li>3</li>
-      </ul>
+          href="https://stripe.com/fr/privacy"
+          title="CGV/Mentions légales Stripe"
+          target="_blank"
+          >ici</a
+        >.
+      </p>
     </article>
     <article class="pb-6">
       <h2 class="text-lg font-semibold pb-2">
         Durée de conservation des données
       </h2>
-      <p>?????</p>
+      <p>
+        Vous pouvez consulter les informations de Stripe à ce sujet
+        <a
+          class="
+            text-blue-500
+            hover:text-blue-600
+            transition-colors
+            duration-200
+            ease-in-out
+          "
+          href="https://stripe.com/fr/privacy"
+          title="CGV/Mentions légales Stripe"
+          target="_blank"
+          >ici</a
+        >.
+      </p>
     </article>
     <article class="pb-6">
       <h2 class="text-lg font-semibold pb-2">
         Vos droits concernant les données personnelles
       </h2>
       <p>
-        Vous avez le droit de consultation, demande de modification ou
-        d’effacement sur l’ensemble de vos données personnelles auprès de
-        Stripe. Vous pouvez également retirer votre consentement au traitement
-        de vos données.
+        Vous pouvez consulter les informations de Stripe à ce sujet
+        <a
+          class="
+            text-blue-500
+            hover:text-blue-600
+            transition-colors
+            duration-200
+            ease-in-out
+          "
+          href="https://stripe.com/fr/privacy"
+          title="CGV/Mentions légales Stripe"
+          target="_blank"
+          >ici</a
+        >.
+      </p>
+      <p class="pt-2">
+        Concernant les données que nous utilisons pour les citations, vous
+        pouvez nous contacter à l'adresse
+        <a
+          class="
+            text-blue-500
+            hover:text-blue-600
+            transition-colors
+            duration-200
+            ease-in-out
+          "
+          title="Email"
+          href="mailto:admin@une-citation.fr"
+          >admin@une-citation.fr</a
+        >
+        pour supprimer tout ou une partie des informations concernant une
+        citation.
       </p>
     </article>
     <article class="pb-6">
