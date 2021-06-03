@@ -1,5 +1,15 @@
 # une-citation
 
+## Description
+
+This project is a SPA where you can register and retrieve quotes from a Firebase database.
+
+## Fill the .env
+
+Rename .env.dist to .env
+
+Add your environment variable (Firebase configuration) in this file.
+
 ## Build Setup
 
 ```bash
