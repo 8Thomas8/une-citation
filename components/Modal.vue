@@ -429,14 +429,14 @@ export default Vue.extend({
         this.errorContent =
           'Votre citation ne doit pas dépasser ' +
           this.maxLimitChar +
-          ' charactères.'
+          ' caractères.'
       }
 
       if (this.quote.content && this.quote.content.length < this.minLimitChar) {
         this.errorContent =
           'Votre citation doit faire plus de ' +
           this.minLimitChar +
-          ' charactères.'
+          ' caractères.'
       }
 
       if (
